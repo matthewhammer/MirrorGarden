@@ -27,7 +27,7 @@ actor {
     let temp = State.clone(state);
     temp.viewEvents := events;
     State.update(temp, events);
-    redrawScreen(windowDim, state)
+    redrawScreen(windowDim, temp)
   };
 
   func redrawScreen(
