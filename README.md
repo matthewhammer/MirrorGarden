@@ -1,3 +1,5 @@
 # Mirror Garden
 
-[Humane](https://collectiveliberation.org/wp-content/uploads/2013/01/hooks_Love_As_The_Practice_Of_Freedom.pdf) [end-user application development](https://en.wikipedia.org/wiki/End-user_development#Definition) for the [Internet Computer](https://dfinity.org/).
+A *live programming engine* built with [Motoko](https://sdk.dfinity.org/docs/language-guide/motoko.html) for the [Internet Computer](https://sdk.dfinity.org/docs/index.html).
+
+(A work in progress)
