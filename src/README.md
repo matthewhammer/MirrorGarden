@@ -16,8 +16,8 @@ This file details our plan in terms of deliberate code organization.
 
 - We _choose_ a coarse grouping of program modules based on _*five levels*_.
 - Each _level_ of code organization corresponds with a _conceptual level_ of the engine.
-- The levels progressively build outward as the numbers increase, using the inner (lower-numbered) support outer (higher-numbered) ones.
-- The core level additionally refers to the higher levels in certain controlled ways.
+- The levels progressively build outward as the numbers increase; the inner (lower-numbered) levels support outer (higher-numbered) levels.
+- The only exception to higher-depends-on-lower is that the core level additionally refers to the higher levels in certain controlled ways.
 - *The core level('s PL design) permits re-mixing media, edit languages, gadgets and applications across "silos" that would otherwise be totally separated.*
 
 ### Level numbers and names
@@ -35,11 +35,23 @@ Each level has parts with a specific purposes and specific relationships to othe
 
 ## Level 0: Core language and storage
 
-- names
-- (core) values: Numbers, text, booleans, and sub-cases for each DSL' value type.
-- (core) expressions: Function abstraction/application, let-binding, case analysis.
+### Core system
+
+- Names: Symbolic data without a(ny one) type.
 - Thunk creation; thunk forcing.
 - Adapton evaluator: Caches named thunks' dynamic representation and result; Handles cache invalidation and repair.
+
+### Core language
+
+- (core) values: Names, numbers, text, booleans.
+- (core) expressions: Functions, imperative control flow.
+
+### Core embedding non-core elements
+
+- (core embedding non-core) values: sub-cases for each DSL's value type (e.g., media and mdia editor types as values).
+- (core embedding non-core) expressions: Do-blocks that create editor-command pipelines.
+
+- (non-core) expressions: a command sub-case for each DSL's exp type (e.g., an edit command on the "current editor").
 
 ## Level 1: Media and editor types
 
@@ -48,6 +60,7 @@ Each media type has at least one corresponding editor type.  The media type repr
 The editor type represents edit parameters and editing state not represented in the media directly, but that still affects how the media is edited.
 
 ### Basic media / editor types
+
 - Text (line) input.
 - Text (2D) plane.
 - Lists of basic elements; Lists of lists; Lists of grids, etc
@@ -85,5 +98,3 @@ Each edit language is a domain-specific language for scripting edits with an edi
 - Main menu and settings
 - Text editor
 - Formula grid (single-sheet spreadsheet)
-
-
