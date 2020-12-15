@@ -28,7 +28,7 @@ jobs:
     - name: "didc help (sanity check)"
       run: didc --help
     - name: "install ic-gt tool"
-      run: wget --output-document /home/runner/bin/ic-gt https://github.com/dfinity/candid/releases/download/2020-12-15/ic-gt-linux64 && chmod +x /home/runner/bin/ic-gt
+      run: wget --output-document /home/runner/bin/ic-gt https://github.com/matthewhammer/ic-game-terminal/releases/download/2020-12-15/ic-gt-linux64 && chmod +x /home/runner/bin/ic-gt
     - name: "ic-gt help (sanity check)"
       run: ic-gt --help
     - name: "test"
