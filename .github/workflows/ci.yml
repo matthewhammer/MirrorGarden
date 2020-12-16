@@ -30,7 +30,7 @@ jobs:
     - name: "install libsdl2, for ic-mt"
       run: sudo apt-get install libsdl2-dev
     - name: "install ic-mt tool"
-      run: wget --output-document /home/runner/bin/ic-mt https://github.com/matthewhammer/ic-game-terminal/releases/download/2020-12-15-G/ic-mt-linux64 && chmod +x /home/runner/bin/ic-mt
+      run: wget --output-document /home/runner/bin/ic-mt https://github.com/matthewhammer/ic-game-terminal/releases/download/2020-12-15-F/ic-mt-linux64 && chmod +x /home/runner/bin/ic-mt
     - name: "ic-mt help (sanity check)"
       run: ic-mt --help
     - name: "test"
