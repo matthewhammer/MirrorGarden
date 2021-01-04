@@ -12,8 +12,8 @@ jobs:
     - name: "install dfx"
       run: |
        wget https://sdk.dfinity.org/install.sh
-       echo DFX_VERSION=0.6.10
-       yes Y | DFX_VERSION=0.6.10 sh install.sh
+       echo DFX_VERSION=0.6.16
+       yes Y | DFX_VERSION=0.6.16 sh install.sh
        echo "/home/runner/bin" >> $GITHUB_PATH
     - name: "dfx cache install"
       run: dfx cache install
@@ -27,5 +27,11 @@ jobs:
       run: wget --output-document /home/runner/bin/didc https://github.com/dfinity/candid/releases/download/2020-08-18/didc-linux64 && chmod +x /home/runner/bin/didc
     - name: "didc help (sanity check)"
       run: didc --help
+    - name: "install libsdl2, for ic-mt"
+      run: sudo apt-get install libsdl2-dev
+    - name: "install ic-mt tool"
+      run: wget --output-document /home/runner/bin/ic-mt https://github.com/matthewhammer/ic-game-terminal/releases/download/2020-12-15-G/ic-mt-linux64 && chmod +x /home/runner/bin/ic-mt
+    - name: "ic-mt help (sanity check)"
+      run: ic-mt --help
     - name: "test"
       run: ./scripts/MirrorGarden-test-headless.sh
