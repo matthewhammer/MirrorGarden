@@ -9,8 +9,9 @@ dfx start --background --clean &&\
 dfx canister create MirrorGarden &&\
 dfx build MirrorGarden &&\
 dfx canister install MirrorGarden
-ic-gt connect 127.0.0.1:8000 `dfx canister id MirrorGarden` --user '("Alice", (100, 200, 200))' &
-ic-gt connect 127.0.0.1:8000 `dfx canister id MirrorGarden` --user '("Bob", (200, 100, 200))' &
+
+# ic-mt connect 127.0.0.1:8000 `dfx canister id MirrorGarden` --user '("Alice", (100, 200, 200))'
+# ic-mt connect 127.0.0.1:8000 `dfx canister id MirrorGarden` --user '("Bob", (200, 100, 200))' &
 echo
 echo Mirror Garden 2-user demo, started.
 echo
