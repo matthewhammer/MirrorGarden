@@ -52,38 +52,38 @@ module {
 
   type TxtElm = {#colorZoom:((Nat, Nat, Nat), Nat); #lo; #vlo; #hi; #h3};
 
-  func txtSty(txtElm : TxtElm) : Atts = {
+  func txtSty(txtElm : TxtElm) : Atts {
     switch txtElm {
-    case (#colorZoom(c, z)) {
+    case (#colorZoom(c, z)) { {
            zoom=z;
            fgFill=#closed(c);
            bgFill=#none;
            flow=horzText(z);
-         };
-    case (#vlo) {
+         } };
+    case (#vlo) { {
            zoom=1;
            fgFill=#closed((100, 100, 100));
            bgFill=#none;
            flow=horzText(1);
-         };
-    case (#lo) {
+         } };
+    case (#lo) { {
            zoom=1;
            fgFill=#closed((200, 200, 200));
            bgFill=#none;
            flow=horzText(1);
-         };
-    case (#hi) {
+         } };
+    case (#hi) { {
            zoom=1;
            fgFill=#closed((240, 240, 240));
            bgFill=#none;
            flow=horzText(1);
-         };
-    case (#h3) {
+         } };
+    case (#h3) { {
            zoom=2;
            fgFill=#closed((250, 250, 250));
            bgFill=#none;
            flow=horzText(2);
-         };
+         } };
     }
   };
 
@@ -135,9 +135,9 @@ module {
     let tr = Render.TextRender(cr);
     r.begin(#flow(vert));
     r.fill(#open((200, 100, 220), 1));
-    {
+    do {
       tr.textAtts("Developer view", txtSty(#lo));
-      {
+      do {
         r.begin(#flow(vert));
         tr.textAtts("Commit log:", txtSty(#lo));
         r.begin(#flow(horz));
@@ -161,7 +161,7 @@ module {
 
         if (i != 0) {
           r.begin(#flow(horz));
-          {
+          do {
             tr.textAtts(Nat.toText(st.commitLog.size() - maxShown), txtSty(#hi));
             tr.textAtts(" earlier events, followed by...", txtSty(#lo));
           };
@@ -215,9 +215,9 @@ module {
     let tr = Render.TextRender(cr);
 
     r.begin(#flow(vert));
-    {
+    do {
       r.begin(#flow(horz));
-      {
+      do {
         tr.textAtts("Editing now as ", txtSty(#lo));
         switch (st.currentEvent) {
         case null tr.textAtts("?", txtSty(#lo));
@@ -238,7 +238,7 @@ module {
       r.end();
 
 
-      func getContentInfo(elm : ?Types.Elm) : (Text, Text, Render.Color) = {
+      func getContentInfo(elm : ?Types.Elm) : (Text, Text, Render.Color) {
         switch elm {
         case null ("none", "no one", (0, 0, 0));
         case (?(#text(te))) { (te.lastModifyTime, te.lastModifyUser, te.color) };
@@ -251,11 +251,11 @@ module {
       );
 
       r.begin(#flow(tinyVert));
-      {
+      do {
         tr.textAtts("Content info: ", txtSty(#lo));
-        {
+        do {
           r.begin(#flow(tinyHorz));
-          {
+          do {
             tr.textAtts("* before cursor: ", txtSty(#lo));
             tr.textAtts(timeBefore, txtSty(#hi));
             tr.textAtts(" by ", txtSty(#lo));
@@ -266,7 +266,7 @@ module {
           r.end();
         };
         r.begin(#flow(tinyHorz));
-        {
+        do {
           tr.textAtts("* after cursor: ", txtSty(#lo));
           tr.textAtts(timeAfter, txtSty(#hi));
           tr.textAtts(" by ", txtSty(#lo));
@@ -288,7 +288,7 @@ module {
     let cr = Render.CharRender(r, Mono5x5.bitmapOfChar, txtSty(#lo));
     let tr = Render.TextRender(cr);
 
-    func isNewline(elm : Types.Elm) : Bool = {
+    func isNewline(elm : Types.Elm) : Bool {
       switch elm {
         case (#text(te)) { te.text == "\n" };
       }
@@ -301,9 +301,9 @@ module {
 
     r.begin(#flow(horz));
     r.fill(#open((200, 200, 200), 1));
-    {
+    do {
     r.begin(#flow(vert));
-    {
+    do {
       // draw the text buffer content, including the visible cursor(s)
       r.begin(#flow(horz));
       for (line in Seq.iter(linesBefore, #fwd)) {
@@ -317,7 +317,7 @@ module {
           };
         };
       };
-      {
+      do {
         /* detect an edge case: (to do: another "view representation" that obviates this logic.)
            newline char is immediately to left of cursor.
            if so, put cursor on next line, not dangling after (invisible) newline char. */
@@ -359,10 +359,10 @@ module {
 
     r.begin(#flow(vert));
     r.fill(#open((255, 255, 0), 1));
-    {
+    do {
       r.begin(#flow(vert));
       r.fill(#open((255, 255, 255), 1));
-      {
+      do {
         tr.textAtts("IC-EDIT", txtSty(#lo));
         tr.textAtts(" a multi-user text editor,", txtSty(#lo));
         tr.textAtts(" via Motoko and the Internet Computer", txtSty(#lo));
@@ -380,15 +380,15 @@ module {
     let tr = Render.TextRender(cr);
 
     r.begin(#flow(vert)); // Two rows in view, each with two "blocks":
-    {
+    do {
       r.begin(#flow(horz)); // Row 1: Title block and Users block
-      {
+      do {
         r.elm(drawTitle(st));
         r.elm(drawUsers(st)); // All users.
       };
       r.end();
       r.begin(#flow(horz)); // Row 2: Content block and Developer info (events)
-      {
+      do {
         r.elm(drawContent(st));
         r.elm(drawCommitLog(st));
       };

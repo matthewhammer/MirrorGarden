@@ -7,7 +7,9 @@ import Types "Types";
 import State "State";
 import Draw "Draw";
 
-class Editor() {
+module {
+
+public class Editor() {
 
   var state = State.initState();
 
@@ -39,5 +41,7 @@ class Editor() {
     let elm = Draw.drawState(state, windowDim);
     #ok(#redraw([("screen", elm)]))
   }
+
+};
 
 };
