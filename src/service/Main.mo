@@ -4,6 +4,9 @@ import Render "mo:redraw/Render";
 import Types "Types";
 import State "State";
 import Debug "mo:base/Debug";
+
+import DebugOff "mo:stand/DebugOff";
+
 import LangText "../lang/text";
 
 import Calc "mo:adapton/eval/Calc";
@@ -36,12 +39,12 @@ actor {
 
 
   func adaptonCalc() : Types.Graphics {
-    Debug.print "Redraw begin";
+    DebugOff.print "Redraw begin";
 
     // test the Calc definition imported above:
     let calc = Calc.Calc();
 
-    Debug.print "Calc() done.";
+    DebugOff.print "Calc() done.";
 
     let exp =
       #named("f",
