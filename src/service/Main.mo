@@ -31,10 +31,10 @@ actor {
     : async Types.Graphics
   {
     let v1 = textEditor.view(windowDim, events);
-
-    // TEMP
     let v2 = adaptonCalc();
-    if false { v1 } else { v2 };
+
+    // TEMP -- need a real command/menu system soon
+    if (windowDim.width < windowDim.height) { v2 } else { v1 };
   };
 
 
