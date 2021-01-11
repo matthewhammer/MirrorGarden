@@ -1,4 +1,5 @@
 import Types "Types";
+import Draw "Draw";
 
 import List "mo:base/List";
 import Buffer "mo:base/Buffer";
@@ -125,7 +126,15 @@ module {
     for (key in keys.vals()) { keyDown(st, key) };
   };
 
-  public func update(st : State, events : [Types.EventInfo]) {
+  public func update(st : State,
+                     events : [Types.EventInfo],
+                     gfxReq : Types.GraphicsRequest)
+  : [Types.Graphics]
+  {
+    func gfxOut(elm : Types.GraphicsElm) : Types.Graphics = {
+      #ok(#redraw([("screen", elm)]))
+    };
+    let gfx = Buffer.Buffer<Types.Graphics>(0);
     for (ev in events.vals()) {
       st.currentEvent := ?ev;
       switch (ev.event) {
@@ -135,8 +144,21 @@ module {
         case (#quit) { };
         case (#mouseDown(_)) { };
         case (#windowSize(_)) { };
+        case (#clipBoard(_)) { };
+        case (#fileRead(_)) { };
       };
-    }
+      switch gfxReq {
+      case (#none) { };
+      case (#last _) { };
+      case (#all dim) { gfx.add(gfxOut(Draw.drawState(st, dim))) };
+      }
+    };
+    switch gfxReq {
+    case (#none) { };
+    case (#last dim) { gfx.add(gfxOut(Draw.drawState(st, dim))) };
+    case (#all _) { };
+    };
+    gfx.toArray()
   };
 
   public func initState() : Types.State {

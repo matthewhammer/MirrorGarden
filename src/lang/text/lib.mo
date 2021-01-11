@@ -14,12 +14,16 @@ public class Editor() {
   var state = State.initState();
 
   /// attempt to "commit" a block of local events to the state's commitLog
-  public func update(events : [Types.EventInfo]) {
-    State.update(state, events);
+  public func update(
+    events : [Types.EventInfo],
+    gfxReq: Types.GraphicsRequest) : [Types.Graphics] 
+  {
+    let gfx = State.update(state, events, gfxReq);
     // commit to log
     for (ev in events.vals()) {
       state.commitLog.add(ev);
     };
+    gfx
   };
 
   public func view(
@@ -29,7 +33,7 @@ public class Editor() {
   {
     let temp = State.clone(state);
     temp.viewEvents := events;
-    State.update(temp, events);
+    ignore State.update(temp, events, #none);
     redrawScreen(windowDim, temp)
   };
 
