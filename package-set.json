@@ -6,6 +6,12 @@
     "dependencies": []
   },
   {
+    "name": "adapton",
+    "repo": "https://github.com/matthewhammer/motoko-adapton",
+    "version": "master",
+    "dependencies": []
+  },
+  {
     "name": "stand",
     "repo": "https://github.com/matthewhammer/motoko-stand",
     "version": "master",
