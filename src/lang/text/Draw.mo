@@ -111,6 +111,11 @@ module {
     case (#quit) tr.textAtts("quit", txtSty(#lo));
     case (#skip) tr.textAtts("skip", txtSty(#lo));
     case (#mouseDown(pos)) tr.textAtts("mouseDown(...)", txtSty(#lo));
+    case (#clipBoard(text)) {
+           tr.textAtts("clipBoard(\"", txtSty(#vlo));
+           tr.textAtts(text, txtSty(#lo));
+           tr.textAtts("\")", txtSty(#vlo));
+         };
     case (#keyDown(ks)) {
            tr.textAtts("keyDown ", txtSty(#lo));
            for (k in ks.vals()) {
