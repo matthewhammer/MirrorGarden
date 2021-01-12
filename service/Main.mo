@@ -4,14 +4,14 @@ import Debug "mo:base/Debug";
 
 import Render "mo:redraw/Render";
 
+import Calc "mo:adapton/eval/Calc";
+
 import DebugOff "mo:stand/DebugOff";
 
 import Types "../src/service/Types";
 import State "../src/service/State";
 
-import LangText "../lang/text";
-
-import Calc "mo:adapton/eval/Calc";
+import LangText "../src/lang/text";
 
 actor {
 
