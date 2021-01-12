@@ -1,11 +1,13 @@
 import Array "mo:base/Array";
 import Result "mo:base/Result";
-import Render "mo:redraw/Render";
-import Types "Types";
-import State "State";
 import Debug "mo:base/Debug";
 
+import Render "mo:redraw/Render";
+
 import DebugOff "mo:stand/DebugOff";
+
+import Types "../src/service/Types";
+import State "../src/service/State";
 
 import LangText "../lang/text";
 
