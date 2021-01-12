@@ -19,12 +19,15 @@ actor {
   flexible var state = State.initState();
 
   /// attempt to "commit" a block of local events to the state's commitLog
-  public func update(events : [Types.EventInfo]) {
-    textEditor.update(events);
+  public func update(events : [Types.EventInfo], 
+                     gfxReq: Types.GraphicsRequest) : async [Types.Graphics] 
+  {
+    let gfx = textEditor.update(events, gfxReq);
     // commit to log
     for (ev in events.vals()) {
       state.commitLog.add(ev);
     };
+    gfx
   };
 
   public query func view(
