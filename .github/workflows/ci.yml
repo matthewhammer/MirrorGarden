@@ -36,7 +36,7 @@ jobs:
     - name: "test"
       run: ./scripts/MirrorGarden-test-headless.sh
     - name: "docs"
-      run: mo-doc
+      run: /home/runner/.cache/dfinity/versions/0.6.18/mo-doc
     - name: Upload docs
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
