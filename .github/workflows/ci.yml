@@ -35,7 +35,7 @@ jobs:
       run: ic-mt --help
     - name: "test"
       run: ./scripts/MirrorGarden-test-headless.sh
-- name: "docs"
+    - name: "docs"
       run: mo-doc
     - name: Upload docs
       uses: JamesIves/github-pages-deploy-action@releases/v3
