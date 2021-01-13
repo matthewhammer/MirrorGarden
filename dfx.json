@@ -2,7 +2,7 @@
 {
   "canisters": {
     "MirrorGarden": {
-      "main": "src/service/Main.mo"
+      "main": "service/MirrorGarden.mo"
     }
   },
   "defaults": {

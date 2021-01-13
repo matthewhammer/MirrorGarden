@@ -1,15 +1,17 @@
 import Array "mo:base/Array";
 import Result "mo:base/Result";
-import Render "mo:redraw/Render";
-import Types "Types";
-import State "State";
 import Debug "mo:base/Debug";
+
+import Render "mo:redraw/Render";
+
+import Calc "mo:adapton/eval/Calc";
 
 import DebugOff "mo:stand/DebugOff";
 
-import LangText "../lang/text";
+import Types "../src/service/Types";
+import State "../src/service/State";
 
-import Calc "mo:adapton/eval/Calc";
+import LangText "../src/lang/text";
 
 actor {
 
@@ -17,12 +19,15 @@ actor {
   flexible var state = State.initState();
 
   /// attempt to "commit" a block of local events to the state's commitLog
-  public func update(events : [Types.EventInfo]) {
-    textEditor.update(events);
+  public func update(events : [Types.EventInfo], 
+                     gfxReq: Types.GraphicsRequest) : async [Types.Graphics] 
+  {
+    let gfx = textEditor.update(events, gfxReq);
     // commit to log
     for (ev in events.vals()) {
       state.commitLog.add(ev);
     };
+    gfx
   };
 
   public query func view(

@@ -23,5 +23,6 @@ public type KeyInfo = RedrawTypes.Event.KeyInfo;
 
 // graphical output (from remote service to local terminal)
 public type Graphics = RedrawTypes.Graphics.Result;
+public type GraphicsRequest = RedrawTypes.GraphicsRequest;
 
 }
