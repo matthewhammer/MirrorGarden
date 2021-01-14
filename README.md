@@ -6,8 +6,9 @@ A work in progress.
 
 ## Related:
 
-- [Motoko documentation](http://mirrorgarden.org/)
 - [IC mini terminal (`ic-mt`)](https://github.com/matthewhammer/ic-mini-terminal)
+- [MirrorGarden's Motoko documentation](http://mirrorgarden.org/)
+- [Motoko language documentation](https://sdk.dfinity.org/docs/language-guide/motoko.html)
 
 ## Inspired by:
 
