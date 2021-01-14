@@ -7,8 +7,6 @@ dfx canister create MirrorGarden &&\
 dfx build MirrorGarden &&\
 dfx canister install MirrorGarden ||\
 dfx canister install MirrorGarden --mode=reinstall &&\
-mo-doc &&\
-find docs &&\
 ic-mt --help &&\
 echo "to do -- run ic-mt on test vectors" &&\
 echo "Success!"
