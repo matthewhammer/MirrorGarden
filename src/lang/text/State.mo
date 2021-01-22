@@ -2,6 +2,8 @@ import Types "Types";
 import Draw "Draw";
 
 import List "mo:base/List";
+import Text "mo:base/Text";
+import TrieMap "mo:base/TrieMap";
 import Buffer "mo:base/Buffer";
 import Result "mo:base/Result";
 
@@ -126,16 +128,26 @@ module {
     for (key in keys.vals()) { keyDown(st, key) };
   };
 
+
+  public func updateUsers(st : State, event : Types.EventInfo) {
+    st.users.put(event.userInfo.userName,
+                 {
+                   name = event.userInfo.userName ;
+                   textColor = event.userInfo.textColor.0 ;
+                   lastEventTime = event.dateTimeLocal ;
+                 });
+  };
+
   public func update(st : State,
                      events : [Types.EventInfo],
                      gfxReq : Types.GraphicsRequest)
   : [Types.Graphics]
   {
-    func gfxOut(elm : Types.GraphicsElm) : Types.Graphics = {
-      #ok(#redraw([("screen", elm)]))
-    };
+    func gfxOut(elm : Types.GraphicsElm) : Types.Graphics =
+      #ok(#redraw([("screen", elm)]));
     let gfx = Buffer.Buffer<Types.Graphics>(0);
     for (ev in events.vals()) {
+      updateUsers(st, ev);
       st.currentEvent := ?ev;
       switch (ev.event) {
         case (#skip) { };
@@ -165,6 +177,7 @@ module {
      {
        levels = Stream.Bernoulli.seedFrom(0);
        commitLog = Buffer.Buffer<Types.EventInfo>(0);
+       users = TrieMap.TrieMap<Text, Types.UserState>(Text.equal, Text.hash);
        var bwd = Seq.empty<Types.Elm>();
        var fwd = Seq.empty<Types.Elm>();
        var viewEvents = ([] : [Types.EventInfo]);
@@ -176,6 +189,7 @@ module {
     {
       levels = st.levels;
       commitLog = st.commitLog;
+      users = TrieMap.clone<Text, Types.UserState>(st.users, Text.equal, Text.hash); // to do -- in O(1)
       var viewEvents = st.viewEvents;
       var currentEvent = st.currentEvent;
       var fwd = st.fwd;
