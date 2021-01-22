@@ -1,6 +1,8 @@
 import List "mo:base/List";
 import Buffer "mo:base/Buffer";
 import Result "mo:base/Result";
+import TrieMap "mo:base/TrieMap";
+
 import Render "mo:redraw/Render";
 
 import TextSeq "mo:sequence/Text";
@@ -33,9 +35,16 @@ public type TextElm = {
 public type Levels = Seq.Stream<Stream.Bernoulli.Value>;
 public type Content = Seq.Sequence<Elm>;
 
+public type UserState = {
+  name : Text;
+  textColor : Render.Color;
+  lastEventTime : Text;
+};
+
 public type State = {
   levels : Levels;
 
+  users : TrieMap.TrieMap<Text, UserState>;
   commitLog : Buffer.Buffer<EventInfo>;
 
   var fwd : Content;
