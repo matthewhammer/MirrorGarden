@@ -5,28 +5,27 @@ on:
       - master
   pull_request:
 jobs:
-  tests:
-    runs-on: ubuntu-18.04
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # environment variables to set for dfx
+    env:
+      DFX_VERSION: 0.7.0
     steps:
     - uses: actions/checkout@v2
-    - name: "install dfx"
+    - name: Install
       run: |
-       wget https://sdk.dfinity.org/install.sh
-       echo DFX_VERSION=0.7.0
-       yes Y | DFX_VERSION=0.7.0 sh install.sh
-       echo "/home/runner/bin" >> $GITHUB_PATH
-    - name: "dfx cache install"
-      run: dfx cache install
-    - name: "install vessel"
-      run: wget --output-document /home/runner/bin/vessel https://github.com/dfinity/vessel/releases/download/v0.6.1/vessel-linux64 && chmod +x /home/runner/bin/vessel
-    - name: "install candid tool"
-      run: wget --output-document /home/runner/bin/candiff https://github.com/dfinity/candid/releases/download/2020-08-18/candiff-linux64 && chmod +x /home/runner/bin/candiff
-    - name: "candiff help (sanity check)"
-      run: candiff --help
-    - name: "install didc tool"
-      run: wget --output-document /home/runner/bin/didc https://github.com/dfinity/candid/releases/download/2020-08-18/didc-linux64 && chmod +x /home/runner/bin/didc
-    - name: "didc help (sanity check)"
-      run: didc --help
+        echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
+        echo "/home/runner/bin" >> $GITHUB_PATH
+        ./scripts/vessel-install.sh
+        ./scripts/repl-install.sh
+
+    - name: Build
+      run: |
+        dfx cache install
+        # cp -f $HOME/bin/moc $HOME/.cache/dfinity/versions/$DFX_VERSION/moc
+        dfx start --background
+        dfx deploy --no-wallet MirrorGarden
     - name: "install libsdl2, for ic-mt"
       run: sudo apt-get install libsdl2-dev
     - name: "install ic-mt tool"
