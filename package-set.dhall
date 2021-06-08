@@ -14,7 +14,7 @@ let
           name = "adapton",
           repo = "https://github.com/matthewhammer/motoko-adapton",
           version = "master",
-          dependencies = ["base", "stand", redraw"],
+          dependencies = ["base", "stand", "redraw"],
       },
       {
           name = "stand",
