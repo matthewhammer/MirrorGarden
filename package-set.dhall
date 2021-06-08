@@ -5,35 +5,34 @@ let Package =
 let
   -- This is where you can add your own packages to the package-set
   additions = [
-      {
-          name = "base",
-          repo = "https://github.com/dfinity/motoko-base",
-          version = "master",
-          dependencies = []
+      { name = "base"
+      , repo = "https://github.com/dfinity/motoko-base"
+      , version = "dfx-0.7.0-beta.2"
+      , dependencies = [] : List Text
       },
       {
           name = "adapton",
           repo = "https://github.com/matthewhammer/motoko-adapton",
           version = "master",
-          dependencies = []
+          dependencies = ["base", "stand", redraw"],
       },
       {
           name = "stand",
           repo = "https://github.com/matthewhammer/motoko-stand",
           version = "master",
-          dependencies = ["base"]
+          dependencies = ["base"],
       },
       {
           name = "redraw",
           repo = "https://github.com/matthewhammer/motoko-redraw",
           version = "master",
-          dependencies = ["base", "stand"]
+          dependencies = ["base", "stand"],
       },
       {
           name = "sequence",
           repo = "https://github.com/matthewhammer/motoko-sequence",
           version = "master",
-          dependencies = ["base"]
+          dependencies = ["base"],
       }
     ]
 
