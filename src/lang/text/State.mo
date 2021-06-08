@@ -145,6 +145,7 @@ module {
   {
     func gfxOut(elm : Types.GraphicsElm) : Types.Graphics =
       #ok(#redraw([("screen", elm)]));
+
     let gfx = Buffer.Buffer<Types.Graphics>(0);
     for (ev in events.vals()) {
       updateUsers(st, ev);

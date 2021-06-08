@@ -157,7 +157,7 @@ module {
 
         let maxShown = 8;
 
-        var i =
+        var i : Nat =
           if (st.commitLog.size() > maxShown) st.commitLog.size() - maxShown
           else 0;
 
