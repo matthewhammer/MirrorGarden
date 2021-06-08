@@ -131,9 +131,9 @@ module {
                      gfxReq : Types.GraphicsRequest)
   : [Types.Graphics]
   {
-    func gfxOut(elm : Types.GraphicsElm) : Types.Graphics = {
-      #ok(#redraw([("screen", elm)]))
-    };
+    func gfxOut(elm : Types.GraphicsElm) : Types.Graphics =
+      #ok(#redraw([("screen", elm)]));
+
     let gfx = Buffer.Buffer<Types.Graphics>(0);
     for (ev in events.vals()) {
       st.currentEvent := ?ev;
