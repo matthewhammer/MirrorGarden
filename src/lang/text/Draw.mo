@@ -50,7 +50,7 @@ module {
 
   type Atts = Render.BitMapTextAtts;
 
-  type TxtElm = {#colorZoom:((Nat, Nat, Nat), Nat); #lo; #vlo; #hi; #h3};
+  type TxtElm = {#colorZoom:((Nat, Nat, Nat), Nat); #lo; #vlo; #hi; #h4; #h3};
 
   func txtSty(txtElm : TxtElm) : Atts {
     switch txtElm {
@@ -81,6 +81,12 @@ module {
     case (#h3) { {
            zoom=2;
            fgFill=#closed((250, 250, 250));
+           bgFill=#none;
+           flow=horzText(2);
+         } };
+    case (#h4) { {
+           zoom=2;
+           fgFill=#closed((200, 200, 200));
            bgFill=#none;
            flow=horzText(2);
          } };
@@ -151,7 +157,7 @@ module {
 
         let maxShown = 8;
 
-        var i =
+        var i : Nat =
           if (st.commitLog.size() > maxShown) st.commitLog.size() - maxShown
           else 0;
 
@@ -219,6 +225,23 @@ module {
     let cr = Render.CharRender(r, Mono5x5.bitmapOfChar, txtSty(#lo));
     let tr = Render.TextRender(cr);
 
+    r.begin(#flow(horz));
+
+    r.begin(#flow(vert));
+    do {
+      r.begin(#flow(horz));
+      tr.textAtts("Users online:", txtSty(#h3));
+      r.end();
+      for ((user, userSt) in st.users.entries()) {
+        r.begin(#flow(horz));
+        r.rect({pos={x=0; y=0}; dim={width=10; height=10}},
+               #closed(userSt.textColor));
+        tr.textAtts(user # " @ ", txtSty(#h4));
+        tr.textAtts(userSt.lastEventTime, txtSty(#lo));
+        r.end()
+      }
+    };
+    r.end();
     r.begin(#flow(vert));
     do {
       r.begin(#flow(horz));
@@ -227,7 +250,7 @@ module {
         switch (st.currentEvent) {
         case null tr.textAtts("?", txtSty(#lo));
         case (?ev) {
-               tr.textAtts(ev.userInfo.userName, txtSty(#lo));
+               tr.textAtts(ev.userInfo.userName, txtSty(#h4));
              };
         };
         switch (st.currentEvent) {
@@ -235,7 +258,7 @@ module {
         case (?ev) {
                tr.textAtts(" with ", txtSty(#lo));
                // draw a rectangle with their text color, a la Etherpad UI.
-               r.rect({pos={x=0; y=0}; dim={width=15; height=15}},
+               r.rect({pos={x=0; y=0}; dim={width=5; height=5}},
                       #closed(ev.userInfo.textColor.0));
              };
         };
@@ -283,6 +306,7 @@ module {
       };
       r.end();
     };
+    r.end();
     r.end();
     r.getElm()
   };
@@ -350,6 +374,8 @@ module {
       };
       r.end();
     };
+    // hack: invisible wide box enforces minimum horz size
+    r.rect({pos={x=0;y=0};dim={width=600;height=0}}, #none);
     r.end(); // Vertical end
     };
     r.end();
@@ -368,11 +394,28 @@ module {
       r.begin(#flow(vert));
       r.fill(#open((255, 255, 255), 1));
       do {
-        tr.textAtts("IC-EDIT", txtSty(#lo));
+        tr.textAtts("MirrorGarden Text Editor", txtSty(#lo));
         tr.textAtts(" a multi-user text editor,", txtSty(#lo));
         tr.textAtts(" via Motoko and the Internet Computer", txtSty(#lo));
       };
       r.end();
+    };
+    r.end();
+    r.getElm()
+  };
+
+  /// --------------------------------------------------------------------
+  func drawSimpleTitle(st : State) : Render.Elm {
+    let r = Render.Render();
+    let cr = Render.CharRender(r, Mono5x5.bitmapOfChar, txtSty(#lo));
+    let tr = Render.TextRender(cr);
+    r.begin(#flow(horz));
+    r.fill(#open((255, 255, 0), 1));
+    tr.textAtts("MirrorGarden Text Editor", txtSty(#h3));
+    label L : () for (ev in st.viewEvents.vals()) {
+      tr.textAtts(" -- ", txtSty(#h4));
+      tr.textAtts(ev.userInfo.userName, txtSty(#h4));
+      break L;
     };
     r.end();
     r.getElm()
@@ -384,15 +427,22 @@ module {
     let cr = Render.CharRender(r, Mono5x5.bitmapOfChar, txtSty(#lo));
     let tr = Render.TextRender(cr);
 
-    r.begin(#flow(vert)); // Two rows in view, each with two "blocks":
+    r.begin(#flow(vert));
     do {
-      r.begin(#flow(horz)); // Row 1: Title block and Users block
+      // Row 1: Title block
+      r.begin(#flow(horz));
       do {
-        r.elm(drawTitle(st));
-        r.elm(drawUsers(st)); // All users.
+        if false { // disabled
+          r.elm(drawTitle(st));
+        } else {
+          r.elm(drawSimpleTitle(st));
+        };
       };
       r.end();
-      r.begin(#flow(horz)); // Row 2: Content block and Developer info (events)
+      // Row 2: Users
+      r.elm(drawUsers(st));
+      // Row 3: Content block and Developer info (events)
+      r.begin(#flow(horz));
       do {
         r.elm(drawContent(st));
         r.elm(drawCommitLog(st));
